@@ -6,12 +6,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Books from "./pages/Books";
+import Courses from "./pages/Courses";
 import About from "./pages/About";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import CourseDetail from "./pages/CourseDetail";
-import AdminDashboard from "./components/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -24,12 +23,11 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/books" element={<Books />} />
+            <Route path="/courses" element={<Courses />} />
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/course/:id" element={<CourseDetail />} />
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/courses/:courseId" element={<CourseDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

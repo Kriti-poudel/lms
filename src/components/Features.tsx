@@ -1,37 +1,37 @@
-import { Book, Search, Clock, Users, BookmarkCheck, Shield } from "lucide-react";
+import { Play, Search, Clock, Users, BookmarkCheck, Shield, Award, Video } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const Features = () => {
   const features = [
     {
       icon: Search,
-      title: "Smart Search",
-      description: "Find any book instantly with our advanced search system supporting title, author, ISBN, and keyword queries."
+      title: "Smart Course Discovery",
+      description: "Find the perfect course with our advanced search system supporting course title, instructor, category, and skill level queries."
     },
     {
-      icon: Book,
-      title: "Digital Catalog",
-      description: "Browse our extensive collection of 50,000+ books across all genres and subjects, updated daily."
+      icon: Video,
+      title: "High-Quality Video Content",
+      description: "Learn from expert instructors with HD video lessons, interactive exercises, and downloadable resources."
     },
     {
       icon: Clock,
-      title: "24/7 Access",
-      description: "Access your digital library anytime, anywhere. Your books are always available when you need them."
+      title: "Learn at Your Own Pace",
+      description: "Access your courses anytime, anywhere. Learn at your own speed with lifetime access to purchased courses."
     },
     {
       icon: BookmarkCheck,
-      title: "Reading Progress",
-      description: "Track your reading journey, set goals, and get personalized recommendations based on your interests."
+      title: "Progress Tracking",
+      description: "Track your learning journey, set goals, and get personalized course recommendations based on your interests."
     },
     {
       icon: Users,
-      title: "Community",
-      description: "Connect with fellow readers, join book clubs, and participate in discussions about your favorite books."
+      title: "Learning Community",
+      description: "Connect with fellow learners, join study groups, and participate in discussions about your courses."
     },
     {
-      icon: Shield,
-      title: "Secure Platform",
-      description: "Your data is protected with enterprise-grade security. Focus on reading while we handle the rest."
+      icon: Award,
+      title: "Certificates & Recognition",
+      description: "Earn certificates upon completion and showcase your new skills to advance your career."
     }
   ];
 
@@ -40,10 +40,10 @@ const Features = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-foreground">
-            Everything You Need
+            Everything You Need to Learn
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Our comprehensive library management system provides all the tools you need for an exceptional reading experience
+            Our comprehensive learning platform provides all the tools you need for an exceptional educational experience
           </p>
         </div>
 

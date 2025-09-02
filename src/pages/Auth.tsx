@@ -17,7 +17,7 @@ const Auth = () => {
   return (
     <div className="min-h-[70vh] py-16">
       <Helmet>
-        <title>Login / Signup | LibraryDesk</title>
+        <title>Login / Signup | Learning Platform</title>
         <meta name="description" content="Sign in to manage your library account or create a new account to start your reading journey." />
         <link rel="canonical" href="/auth" />
       </Helmet>
@@ -74,6 +74,13 @@ const Auth = () => {
                   <div className="space-y-2">
                     <Label htmlFor="password2">Password</Label>
                     <Input id="password2" type="password" required />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="role">I want to</Label>
+                    <select id="role" className="w-full p-2 border rounded-md">
+                      <option value="learner">Learn on this platform</option>
+                      <option value="teacher">Teach and create courses</option>
+                    </select>
                   </div>
                   <Button type="submit" className="w-full">Create account</Button>
                 </form>

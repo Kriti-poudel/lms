@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getCourseById } from "@/lib/api/courses";
+import { FileUpload } from "@/components/ui/file-upload";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 import { 
   BookOpen, 
   FileText, 
@@ -23,89 +28,92 @@ import {
   Circle,
   ArrowRight,
   Bookmark,
-  Share2
+  Share2,
+  MessageSquare
 } from "lucide-react";
 
 const CourseDetail = () => {
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [showEnrollDialog, setShowEnrollDialog] = useState(false);
+  const [selectedLesson, setSelectedLesson] = useState<number | null>(null);
 
-  // Mock course data
-  const course = {
-    id: 1,
-    title: "Introduction to Data Science",
-    description: "A comprehensive introduction to data science fundamentals, covering statistics, programming, and machine learning concepts. Perfect for beginners looking to enter the field of data science.",
-    instructor: {
-      name: "Dr. Sarah Chen",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-      bio: "Senior Data Scientist with 8+ years of experience in machine learning and statistical analysis. PhD in Computer Science from Stanford University.",
-      rating: 4.9,
-      students: 1247
-    },
-    category: "Technology",
-    level: "Beginner",
-    duration: "8 weeks",
-    totalHours: 24,
-    rating: 4.8,
-    totalRatings: 156,
-    enrolledStudents: 1247,
-    price: "$99",
-    lastUpdated: "3 days ago",
-    language: "English",
-    certificate: true,
-    progress: 75,
-    status: "active"
-  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [course, setCourse] = useState(() => {
+    if (!courseId) return null;
+    const found = getCourseById(courseId);
+    return found || null;
+  });
 
-  const modules = [
-    {
-      id: 1,
-      title: "Introduction to Data Science",
-      description: "Overview of the field and career opportunities",
-      duration: "2 hours",
-      lessons: 4,
-      completed: 4,
-      materials: [
-        { id: 1, title: "What is Data Science?", type: "video", duration: "15 min", completed: true },
-        { id: 2, title: "Data Science Career Paths", type: "video", duration: "20 min", completed: true },
-        { id: 3, title: "Tools and Technologies", type: "video", duration: "25 min", completed: true },
-        { id: 4, title: "Introduction Quiz", type: "quiz", duration: "10 min", completed: true }
-      ]
-    },
-    {
-      id: 2,
-      title: "Statistical Foundations",
-      description: "Core statistical concepts and probability theory",
-      duration: "4 hours",
-      lessons: 6,
-      completed: 4,
-      materials: [
-        { id: 5, title: "Basic Statistics", type: "video", duration: "30 min", completed: true },
-        { id: 6, title: "Probability Theory", type: "video", duration: "35 min", completed: true },
-        { id: 7, title: "Statistical Distributions", type: "video", duration: "40 min", completed: true },
-        { id: 8, title: "Hypothesis Testing", type: "video", duration: "45 min", completed: true },
-        { id: 9, title: "Practice Problems", type: "exercise", duration: "60 min", completed: false },
-        { id: 10, title: "Statistics Quiz", type: "quiz", duration: "15 min", completed: false }
-      ]
-    },
-    {
-      id: 3,
-      title: "Programming Fundamentals",
-      description: "Python programming for data science",
-      duration: "6 hours",
-      lessons: 8,
-      completed: 2,
-      materials: [
-        { id: 11, title: "Python Basics", type: "video", duration: "45 min", completed: true },
-        { id: 12, title: "Data Structures", type: "video", duration: "50 min", completed: true },
-        { id: 13, title: "Pandas Library", type: "video", duration: "55 min", completed: false },
-        { id: 14, title: "NumPy Arrays", type: "video", duration: "40 min", completed: false },
-        { id: 15, title: "Data Visualization", type: "video", duration: "60 min", completed: false },
-        { id: 16, title: "Coding Exercises", type: "exercise", duration: "90 min", completed: false },
-        { id: 17, title: "Project: Data Analysis", type: "project", duration: "120 min", completed: false },
-        { id: 18, title: "Programming Quiz", type: "quiz", duration: "20 min", completed: false }
-      ]
+  // Fetch course effect
+  useEffect(() => {
+    if (!courseId) {
+      setIsLoading(false);
+      return;
     }
-  ];
+
+    // Simulate API call delay for smoother loading state
+    const timeoutId = setTimeout(() => {
+      const found = getCourseById(courseId);
+      setCourse(found);
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [courseId]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card>
+          <CardContent className="p-6">
+            <div className="space-y-4 text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto" />
+              <p className="text-muted-foreground">Loading course...</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Not found state
+  if (!course) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card>
+          <CardContent className="p-6 text-center">
+            <h1 className="text-xl font-semibold mb-2">Course Not Found</h1>
+            <p className="text-muted-foreground mb-4">The course you're looking for doesn't exist or has been removed.</p>
+            <Button onClick={() => navigate('/courses')}>
+              Return to Courses
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleThumbnailUpload = (file: File) => {
+    // In a real application, you would upload this file to your server
+    // and get back a URL. For now, we'll create a local URL
+    const imageUrl = URL.createObjectURL(file);
+    setCourse(prev => prev ? {
+      ...prev,
+      thumbnail: imageUrl
+    } : null);
+
+    toast({
+      title: "Thumbnail updated",
+      description: "The course thumbnail has been successfully updated.",
+    });
+  };
 
   const materials = [
     {
@@ -164,7 +172,7 @@ const CourseDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>{course.title} | LibraryDesk</title>
+        <title>{course.title} | Learning Platform</title>
         <meta name="description" content={course.description} />
       </Helmet>
 
@@ -182,6 +190,16 @@ const CourseDetail = () => {
               
               <h1 className="text-4xl font-bold mb-4">{course.title}</h1>
               <p className="text-lg text-muted-foreground mb-6">{course.description}</p>
+              
+              <div className="mb-6">
+                <FileUpload
+                  onFileSelect={handleThumbnailUpload}
+                  accept="image/*"
+                  maxSize={2}
+                  label="Course Thumbnail"
+                  currentFile={course.thumbnail}
+                />
+              </div>
               
               <div className="flex items-center space-x-6 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">
@@ -306,12 +324,12 @@ const CourseDetail = () => {
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Course Content</h2>
                 <div className="text-sm text-muted-foreground">
-                  {modules.reduce((acc, module) => acc + module.completed, 0)} of {modules.reduce((acc, module) => acc + module.lessons, 0)} lessons completed
+                  {course.modules.reduce((acc, module) => acc + module.completed, 0)} of {course.modules.reduce((acc, module) => acc + module.lessons, 0)} lessons completed
                 </div>
               </div>
 
               <div className="space-y-4">
-                {modules.map((module, moduleIndex) => (
+                {course.modules.map((module, moduleIndex) => (
                   <Card key={module.id} className="hover:shadow-lg transition-shadow">
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
@@ -471,11 +489,11 @@ const CourseDetail = () => {
                     
                     <div className="grid grid-cols-2 gap-4 text-center">
                       <div>
-                        <p className="text-2xl font-bold text-primary">{modules.reduce((acc, module) => acc + module.completed, 0)}</p>
+                        <p className="text-2xl font-bold text-primary">{course.modules.reduce((acc, module) => acc + module.completed, 0)}</p>
                         <p className="text-sm text-muted-foreground">Lessons Completed</p>
                       </div>
                       <div>
-                        <p className="text-2xl font-bold text-green-600">{Math.round((modules.reduce((acc, module) => acc + module.completed, 0) / modules.reduce((acc, module) => acc + module.lessons, 0)) * 100)}%</p>
+                        <p className="text-2xl font-bold text-green-600">{Math.round((course.modules.reduce((acc, module) => acc + module.completed, 0) / course.modules.reduce((acc, module) => acc + module.lessons, 0)) * 100)}%</p>
                         <p className="text-sm text-muted-foreground">Completion Rate</p>
                       </div>
                     </div>
@@ -489,7 +507,7 @@ const CourseDetail = () => {
                     <CardDescription>Breakdown by module</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {modules.map((module) => (
+                    {course.modules.map((module) => (
                       <div key={module.id} className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">{module.title}</span>
@@ -505,8 +523,119 @@ const CourseDetail = () => {
           </Tabs>
         </div>
       </section>
+
+      {/* Enrollment Dialog */}
+      <Dialog open={showEnrollDialog} onOpenChange={setShowEnrollDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Enroll in {course.title}</DialogTitle>
+            <DialogDescription>
+              You're about to enroll in this course. Once enrolled, you'll have immediate access to all course materials.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-lg font-medium">Course Price:</span>
+              <span className="text-2xl font-bold text-primary">{course.price}</span>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">What you'll get:</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Full lifetime access</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>{course.totalHours} hours of content</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Certificate of completion</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <span>Direct instructor support</span>
+                </li>
+              </ul>
+            </div>
+            <div className="flex gap-3">
+              <Button 
+                className="flex-1" 
+                onClick={() => {
+                  setIsEnrolled(true);
+                  setShowEnrollDialog(false);
+                  toast({
+                    title: "Successfully enrolled!",
+                    description: "You now have access to all course materials.",
+                  });
+                }}
+              >
+                Confirm Enrollment
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => setShowEnrollDialog(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Video Preview Dialog */}
+      {selectedLesson !== null && (
+        <Dialog 
+          open={selectedLesson !== null} 
+          onOpenChange={() => setSelectedLesson(null)}
+        >
+          <DialogContent className="max-w-4xl">
+            <DialogHeader>
+              <DialogTitle>
+                {course.modules.flatMap(m => m.materials).find(m => m.id === selectedLesson)?.title}
+              </DialogTitle>
+            </DialogHeader>
+            <div className="aspect-video bg-gray-950 rounded-lg flex items-center justify-center">
+              {!isEnrolled ? (
+                <div className="text-center p-8">
+                  <Play className="h-12 w-12 text-white/50 mx-auto mb-4" />
+                  <p className="text-white/80">Preview not available. Please enroll to watch this lesson.</p>
+                  <Button 
+                    className="mt-4"
+                    onClick={() => {
+                      setSelectedLesson(null);
+                      setShowEnrollDialog(true);
+                    }}
+                  >
+                    Enroll Now
+                  </Button>
+                </div>
+              ) : (
+                <div className="text-center p-8">
+                  <Play className="h-16 w-16 text-white mx-auto animate-pulse" />
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
+};
+
+// Helper function to handle lesson clicks
+const handleLessonClick = (
+  lessonId: number, 
+  isEnrolled: boolean, 
+  setSelectedLesson: (id: number | null) => void,
+  setShowEnrollDialog: (show: boolean) => void
+) => {
+  if (isEnrolled) {
+    setSelectedLesson(lessonId);
+  } else {
+    setShowEnrollDialog(true);
+  }
 };
 
 export default CourseDetail;

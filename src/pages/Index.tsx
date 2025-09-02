@@ -1,12 +1,12 @@
 import Hero from "@/components/Hero";
-import FeaturedBooks from "@/components/FeaturedBooks";
+import FeaturedCourses from "@/components/FeaturedCourses";
 import Features from "@/components/Features";
 
 const Index = () => {
   return (
     <>
       <Hero />
-      <FeaturedBooks />
+      <FeaturedCourses />
       <Features />
     </>
   );

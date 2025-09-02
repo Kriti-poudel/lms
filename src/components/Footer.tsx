@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Book className="h-8 w-8 text-accent-warm" />
-              <span className="text-2xl font-bold">LibraryDesk</span>
+              <span className="text-2xl font-bold">Learning Platform</span>
             </div>
             <p className="text-primary-foreground/80 leading-relaxed">
               Your digital gateway to knowledge and learning. Discover, borrow, and manage your reading journey with ease.
@@ -59,7 +59,7 @@ const Footer = () => {
             <div className="space-y-4 mb-6">
               <div className="flex items-center space-x-3 text-primary-foreground/80">
                 <Mail className="h-4 w-4 text-accent-warm" />
-                <span className="text-sm">info@librarydesk.com</span>
+                <span className="text-sm">info@Learning Platform.com</span>
               </div>
               <div className="flex items-center space-x-3 text-primary-foreground/80">
                 <Phone className="h-4 w-4 text-accent-warm" />
@@ -88,7 +88,7 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center">
           <p className="text-primary-foreground/60 text-sm">
-            © 2024 LibraryDesk. All rights reserved. Built with ❤️ for book lovers.
+            © 2024 Learning Platform. All rights reserved. Built with ❤️ for book lovers.
           </p>
         </div>
       </div>
