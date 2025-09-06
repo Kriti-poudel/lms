@@ -19,7 +19,7 @@ const Auth = () => {
       <Helmet>
         <title>Login / Signup | Learning Platform</title>
         <meta name="description" content="Sign in to manage your library account or create a new account to start your reading journey." />
-        <link rel="canonical" href="/auth" />
+        <link rel="canonical" href="/register" />
       </Helmet>
 
       <div className="container mx-auto px-4 max-w-3xl">
@@ -42,7 +42,7 @@ const Auth = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" required />
+                    <Input id="password" type="password" placeholder='password' required />
                   </div>
                   <Button type="submit" className="w-full">Sign in</Button>
                 </form>
@@ -60,11 +60,11 @@ const Auth = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Full name</Label>
-                      <Input id="name" placeholder="Taylor Reed" required />
+                      <Input id="name" placeholder="Enter your full name" required />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="username">Username</Label>
-                      <Input id="username" placeholder="taylor" required />
+                      <Input id="username" placeholder="username" required />
                     </div>
                   </div>
                   <div className="space-y-2">
@@ -73,7 +73,7 @@ const Auth = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="password2">Password</Label>
-                    <Input id="password2" type="password" required />
+                    <Input id="password2" type="password" placeholder='password' required />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="role">I want to</Label>

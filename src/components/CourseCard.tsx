@@ -5,6 +5,7 @@ import { Star, BookmarkPlus, Play, Clock, Users } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface CourseCardProps {
+  id: string;
   title: string;
   instructor: string;
   thumbnail: string;
@@ -17,7 +18,7 @@ interface CourseCardProps {
   price: string;
 }
 
-const CourseCard = ({ title, instructor, thumbnail, rating, category, status, description, duration, students, price }: CourseCardProps) => {
+const CourseCard = ({ id, title, instructor, thumbnail, rating, category, status, description, duration, students, price }: CourseCardProps) => {
   const navigate = useNavigate();
   
   const getStatusColor = (status: string) => {
@@ -35,6 +36,7 @@ const CourseCard = ({ title, instructor, thumbnail, rating, category, status, de
         <img 
           src={thumbnail} 
           alt={`${title} thumbnail`}
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
@@ -94,7 +96,7 @@ const CourseCard = ({ title, instructor, thumbnail, rating, category, status, de
           className="flex-1" 
           variant={status === "available" ? "default" : "outline"}
           disabled={status === "completed"}
-          onClick={() => navigate(`/courses/${encodeURIComponent(title.toLowerCase().replace(/ /g, '-'))}-${Date.now()}`)}
+          onClick={() => navigate(`/courses/${id}`)}
         >
           {status === "available" && `Enroll Now - ${price}`}
           {status === "enrolled" && "Continue Learning"}

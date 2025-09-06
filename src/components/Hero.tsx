@@ -1,72 +1,53 @@
 import { Button } from "@/components/ui/button";
-import { Search, Play, Users, Clock } from "lucide-react";
-import libraryHero from "@/assets/library-hero.jpg";
-import { Link } from "react-router-dom";
+import { Search, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
-  return (
-    <section className="relative min-h-[80vh] flex items-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={libraryHero}
-          alt="Modern learning environment"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
-      </div>
+  const navigate = useNavigate();
 
+  return (
+    <section className="relative min-h-[85vh] flex justify-center items-center overflow-hidden bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-950 dark:to-black">
       {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-2xl text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Master New Skills
-            <span className="block text-accent-warm">With Expert Courses</span>
+      <div className="mx-auto px-6 relative z-10">
+        <div className="max-w-3xl text-center text-gray-900 dark:text-gray-100">
+          {/* Headline */}
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 leading-tight tracking-tight">
+            Unlock Your Potential <br />
+            <span className="text-primary block mt-2 text-2xl sm:text-3xl md:text-4xl font-bold">
+              Master New Skills with Experts
+            </span>
           </h1>
-          <p className="text-xl mb-8 text-white/90 leading-relaxed">
-            Access thousands of online courses, learn from industry experts, and advance your career with our comprehensive learning platform.
+
+          {/* Subtext */}
+          <p className="text-lg sm:text-xl mb-10 text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto">
+            Join thousands of learners worldwide. Explore in-depth courses, gain
+            industry insights, and level up your career with our expert-led
+            learning platform.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Link to="/courses" className=" flex justify-center align-center bg-accent-warm p-2 rounded-md hover:bg-accent-warm/90 text-accent-foreground shadow-glow " >
-              <Search size={24} />
-              Explore Courses
-            </Link>
-            <Button variant="secondary" size="lg" className="text-primary-foreground transition-smooth bg-neutral-500">
-              <Play className="h-5 w-5 mr-2" />
-              Start Learning
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-5">
+            <Button
+              onClick={() => navigate("/register")}
+              size="lg"
+              className="px-6 py-5 text-lg font-medium shadow-lg shadow-blue-500/20 bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 transition-all rounded-2xl"
+            >
+              <Search className="h-5 w-5 mr-2" />
+              Get Started Free
             </Button>
-          </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 text-center">
-            <div className="text-white/90">
-              <div className="flex items-center justify-center mb-2">
-                <Play className="h-6 w-6 text-accent-warm" />
-              </div>
-              <div className="text-2xl font-bold text-white">10K+</div>
-              <div className="text-sm">Courses Available</div>
-            </div>
-            <div className="text-white/90">
-              <div className="flex items-center justify-center mb-2">
-                <Users className="h-6 w-6 text-accent-warm" />
-              </div>
-              <div className="text-2xl font-bold text-white">50K+</div>
-              <div className="text-sm">Active Learners</div>
-            </div>
-            <div className="text-white/90">
-              <div className="flex items-center justify-center mb-2">
-                <Clock className="h-6 w-6 text-accent-warm" />
-              </div>
-              <div className="text-2xl font-bold text-white">24/7</div>
-              <div className="text-sm">Access</div>
-            </div>
+            <Button
+              onClick={() => navigate("/courses")}
+              variant="secondary"
+              size="lg"
+              className="px-6 py-5 text-lg font-medium border border-gray-400 dark:border-gray-600 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition-all rounded-2xl"
+            >
+              <Play className="h-5 w-5 mr-2" />
+              Browse Courses
+            </Button>
           </div>
         </div>
       </div>
-
-      {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 };

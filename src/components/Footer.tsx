@@ -1,95 +1,48 @@
-import { Book, Mail, Phone, MapPin, Github, Twitter, Linkedin } from "lucide-react";
+import { Book, Mail, Phone, Github, Twitter, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-primary text-primary-foreground py-10">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          
           {/* Brand */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Book className="h-8 w-8 text-accent-warm" />
-              <span className="text-2xl font-bold">Learning Platform</span>
-            </div>
-            <p className="text-primary-foreground/80 leading-relaxed">
-              Your digital gateway to knowledge and learning. Discover, borrow, and manage your reading journey with ease.
-            </p>
-            <div className="flex space-x-3">
-              <Button variant="ghost" size="icon" className="text-primary-foreground/80 hover:text-accent-warm hover:bg-primary-foreground/10">
-                <Twitter className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground/80 hover:text-accent-warm hover:bg-primary-foreground/10">
-                <Github className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground/80 hover:text-accent-warm hover:bg-primary-foreground/10">
-                <Linkedin className="h-5 w-5" />
-              </Button>
-            </div>
+          <div className="flex items-center space-x-2">
+            <Book className="h-6 w-6 text-accent-warm" />
+            <span className="text-lg font-semibold">Learning Platform</span>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-3">
-              <li><a href="/browse" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Browse Books</a></li>
-              <li><a href="/categories" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Categories</a></li>
-              <li><a href="/new-arrivals" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">New Arrivals</a></li>
-              <li><a href="/popular" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Popular Books</a></li>
-              <li><a href="/my-account" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">My Account</a></li>
-            </ul>
-          </div>
+          {/* Links */}
+          <ul className="flex flex-wrap justify-center gap-5 text-sm text-primary-foreground/80">
+            <li><a href="/browse" className="hover:text-accent-warm">Browse</a></li>
+            <li><a href="/categories" className="hover:text-accent-warm">Categories</a></li>
+            <li><a href="/courses" className="hover:text-accent-warm">Courses</a></li>
+            <li><a href="/about" className="hover:text-accent-warm">About</a></li>
+            <li><a href="/contact" className="hover:text-accent-warm">Contact</a></li>
+          </ul>
 
-          {/* Services */}
-          <div>
-            <h3 className="font-bold text-lg mb-4">Services</h3>
-            <ul className="space-y-3">
-              <li><a href="/digital-lending" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Digital Lending</a></li>
-              <li><a href="/book-reservations" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Book Reservations</a></li>
-              <li><a href="/reading-lists" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Reading Lists</a></li>
-              <li><a href="/research-help" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Research Help</a></li>
-              <li><a href="/mobile-app" className="text-primary-foreground/80 hover:text-accent-warm transition-smooth">Mobile App</a></li>
-            </ul>
-          </div>
-
-          {/* Contact & Newsletter */}
-          <div>
-            <h3 className="font-bold text-lg mb-4">Stay Connected</h3>
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center space-x-3 text-primary-foreground/80">
-                <Mail className="h-4 w-4 text-accent-warm" />
-                <span className="text-sm">info@Learning Platform.com</span>
-              </div>
-              <div className="flex items-center space-x-3 text-primary-foreground/80">
-                <Phone className="h-4 w-4 text-accent-warm" />
-                <span className="text-sm">+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-3 text-primary-foreground/80">
-                <MapPin className="h-4 w-4 text-accent-warm" />
-                <span className="text-sm">123 Library St, Reading City</span>
-              </div>
-            </div>
-            
-            <div>
-              <p className="text-sm text-primary-foreground/80 mb-3">Subscribe for book recommendations</p>
-              <div className="flex space-x-2">
-                <Input 
-                  placeholder="Your email"
-                  className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
-                />
-                <Button variant="secondary" size="sm" className="bg-accent-warm hover:bg-accent-warm/90 text-accent-foreground">
-                  Subscribe
-                </Button>
-              </div>
-            </div>
+          {/* Socials */}
+          <div className="flex space-x-3">
+            <Button variant="ghost" size="icon" className="text-primary-foreground/70 hover:text-accent-warm">
+              <Twitter className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-primary-foreground/70 hover:text-accent-warm">
+              <Github className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="text-primary-foreground/70 hover:text-accent-warm">
+              <Linkedin className="h-4 w-4" />
+            </Button>
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center">
-          <p className="text-primary-foreground/60 text-sm">
-            © 2024 Learning Platform. All rights reserved. Built with ❤️ for book lovers.
-          </p>
+        {/* Bottom Note */}
+        <div className="mt-6 text-center text-xs text-primary-foreground/60">
+          <p>© 2024 Learning Platform. Built with ❤️ for learners.</p>
+          <div className="flex justify-center gap-4 mt-2 text-xs">
+            <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> info@learning.com</span>
+            <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> +1 (555) 123-4567</span>
+          </div>
         </div>
       </div>
     </footer>
