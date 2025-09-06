@@ -75,7 +75,8 @@ const Courses = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {sampleCourses.map((course, idx) => (
-              <CourseCard key={idx} {...course} />
+              // pass the if later from db
+              <CourseCard key={idx} id = {idx.toString()} {...course} />
             ))}
           </div>
         </div>

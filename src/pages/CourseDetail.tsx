@@ -1,4 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+/* 
+Details about courses and other things like entroll status and other status
+
+eg: 
+http://localhost:8080/courses/1234
+
+*/
+
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { 
   BookOpen, 
@@ -22,18 +30,15 @@ import {
   Eye,
   Play,
   Users,
-  Calendar,
   Award,
   CheckCircle,
   Circle,
-  ArrowRight,
   Bookmark,
   Share2,
-  MessageSquare
 } from "lucide-react";
 
 const CourseDetail = () => {
-  const { courseId } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
@@ -43,27 +48,27 @@ const CourseDetail = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [course, setCourse] = useState(() => {
-    if (!courseId) return null;
-    const found = getCourseById(courseId);
+    if (!id) return null;
+    const found = getCourseById(id);
     return found || null;
   });
 
   // Fetch course effect
   useEffect(() => {
-    if (!courseId) {
+    if (!id) {
       setIsLoading(false);
       return;
     }
 
     // Simulate API call delay for smoother loading state
     const timeoutId = setTimeout(() => {
-      const found = getCourseById(courseId);
+      const found = getCourseById(id);
       setCourse(found);
       setIsLoading(false);
     }, 500);
 
     return () => clearTimeout(timeoutId);
-  }, [courseId]);
+  }, [id]);
 
   // Loading state
   if (isLoading) {
@@ -98,11 +103,8 @@ const CourseDetail = () => {
     );
   }
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
   const handleThumbnailUpload = (file: File) => {
-    // In a real application, you would upload this file to your server
-    // and get back a URL. For now, we'll create a local URL
+    // FOR DEMO PURPOSE
     const imageUrl = URL.createObjectURL(file);
     setCourse(prev => prev ? {
       ...prev,
