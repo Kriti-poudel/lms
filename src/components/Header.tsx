@@ -43,17 +43,14 @@ const Header = () => {
             <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Dashboard</NavLink>
           )}
 
-          {
-            isLoggedIn ??
-            (
-              <NavLink to="/register">
-                <Button variant="outline" size="sm">
-                  <User className="h-4 w-4 mr-2" />
-                  Sign In
-                </Button>
-              </NavLink>
-            )
-          }
+          {!isLoggedIn && (
+            <NavLink to="/register">
+              <Button variant="outline" size="sm">
+                <User className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            </NavLink>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -88,17 +85,15 @@ const Header = () => {
               {isLoggedIn && (
                 <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Dashboard</NavLink>
               )}
-              {
-                isLoggedIn ??
-                (
-                  <NavLink to="/register">
-                    <Button variant="outline" size="sm">
-                      <User className="h-4 w-4 mr-2" />
-                      Sign In
-                    </Button>
-                  </NavLink>
-                )
-              }
+              
+              {!isLoggedIn && (
+                <NavLink to="/register">
+                  <Button variant="outline" size="sm">
+                    <User className="h-4 w-4 mr-2" />
+                    Sign In
+                  </Button>
+                </NavLink>
+              )}
             </nav>
           </div>
         </div>
