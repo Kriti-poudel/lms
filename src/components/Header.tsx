@@ -38,7 +38,11 @@ const Header = () => {
           <NavLink to="/" end className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Home</NavLink>
           <NavLink to="/courses" className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Courses</NavLink>
           <NavLink to="/about" className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>About</NavLink>
-          <NavLink to="/dashboard" className={({ isActive }) => isActive && isLoggedIn ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Dashboard</NavLink>
+
+          {isLoggedIn && (
+            <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Dashboard</NavLink>
+          )}
+
           {
             isLoggedIn ??
             (
@@ -80,7 +84,10 @@ const Header = () => {
               <NavLink to="/" end className={({ isActive }) => isActive ? "text-primary font-medium py-2" : "text-foreground hover:text-primary py-2 transition-smooth"}>Home</NavLink>
               <NavLink to="/courses" className={({ isActive }) => isActive ? "text-primary font-medium py-2" : "text-foreground hover:text-primary py-2 transition-smooth"}>Courses</NavLink>
               <NavLink to="/about" className={({ isActive }) => isActive ? "text-primary font-medium py-2" : "text-foreground hover:text-primary py-2 transition-smooth"}>About</NavLink>
-              <NavLink to="/dashboard" className={({ isActive }) => isActive && isLoggedIn ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Dashboard</NavLink>
+
+              {isLoggedIn && (
+                <NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-primary font-medium" : "text-foreground hover:text-primary transition-smooth"}>Dashboard</NavLink>
+              )}
               {
                 isLoggedIn ??
                 (
