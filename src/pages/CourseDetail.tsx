@@ -20,13 +20,13 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  BookOpen, 
-  FileText, 
-  Video, 
-  Clock, 
-  Star, 
-  Download, 
+import {
+  BookOpen,
+  FileText,
+  Video,
+  Clock,
+  Star,
+  Download,
   Eye,
   Play,
   Users,
@@ -46,110 +46,63 @@ const CourseDetail = () => {
   const [showEnrollDialog, setShowEnrollDialog] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<number | null>(null);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [course, setCourse] = useState(() => {
-    if (!id) return null;
-    const found = getCourseById(id);
-    return found || null;
-  });
-
-  // Fetch course effect
-  useEffect(() => {
-    if (!id) {
-      setIsLoading(false);
-      return;
-    }
-
-    // Simulate API call delay for smoother loading state
-    const timeoutId = setTimeout(() => {
-      const found = getCourseById(id);
-      setCourse(found);
-      setIsLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [id]);
-
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card>
-          <CardContent className="p-6">
-            <div className="space-y-4 text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto" />
-              <p className="text-muted-foreground">Loading course...</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  // Not found state
-  if (!course) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card>
-          <CardContent className="p-6 text-center">
-            <h1 className="text-xl font-semibold mb-2">Course Not Found</h1>
-            <p className="text-muted-foreground mb-4">The course you're looking for doesn't exist or has been removed.</p>
-            <Button onClick={() => navigate('/courses')}>
-              Return to Courses
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  const handleThumbnailUpload = (file: File) => {
-    // FOR DEMO PURPOSE
-    const imageUrl = URL.createObjectURL(file);
-    setCourse(prev => prev ? {
-      ...prev,
-      thumbnail: imageUrl
-    } : null);
-
-    toast({
-      title: "Thumbnail updated",
-      description: "The course thumbnail has been successfully updated.",
-    });
+  const course = {
+    title: "Introduction to Data Science",
+    description: "Learn data science fundamentals with Python and practical projects.",
+    category: "Data Science",
+    level: "Beginner",
+    language: "English",
+    duration: "8 weeks",
+    totalHours: 40,
+    enrolledStudents: 1200,
+    rating: 4.8,
+    totalRatings: 320,
+    price: "$49.99",
+    certificate: true,
+    progress: 60,
+    thumbnail: "",
+    instructor: {
+      name: "Dr. Jane Smith",
+      bio: "Data scientist with 10+ years of experience in machine learning and AI.",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
+      rating: "4.9",
+      students: 5000,
+    },
+    modules: [
+      {
+        id: 1,
+        title: "Getting Started with Data Science",
+        description: "Understand the basics and tools.",
+        duration: "2h 30m",
+        completed: 2,
+        lessons: 4,
+        materials: [
+          { id: 101, title: "Introduction Video", type: "video", duration: "15m", completed: true },
+          { id: 102, title: "Installing Python", type: "video", duration: "30m", completed: true },
+          { id: 103, title: "Basic Data Types", type: "video", duration: "40m", completed: false },
+          { id: 104, title: "Quiz 1", type: "quiz", duration: "5m", completed: false },
+        ]
+      },
+      {
+        id: 2,
+        title: "Data Wrangling",
+        description: "Learn how to clean and prepare data.",
+        duration: "3h",
+        completed: 1,
+        lessons: 4,
+        materials: [
+          { id: 201, title: "Data Cleaning Basics", type: "video", duration: "45m", completed: true },
+          { id: 202, title: "Handling Missing Data", type: "video", duration: "30m", completed: false },
+          { id: 203, title: "Practical Exercise", type: "exercise", duration: "30m", completed: false },
+          { id: 204, title: "Quiz 2", type: "quiz", duration: "10m", completed: false },
+        ]
+      }
+    ]
   };
 
   const materials = [
-    {
-      id: 1,
-      title: "Data Science Fundamentals PDF",
-      type: "PDF",
-      size: "2.4 MB",
-      downloads: 156,
-      lastUpdated: "3 days ago"
-    },
-    {
-      id: 2,
-      title: "Python Code Examples",
-      type: "ZIP",
-      size: "1.8 MB",
-      downloads: 89,
-      lastUpdated: "1 week ago"
-    },
-    {
-      id: 3,
-      title: "Statistical Formulas Reference",
-      type: "PDF",
-      size: "0.9 MB",
-      downloads: 203,
-      lastUpdated: "2 weeks ago"
-    },
-    {
-      id: 4,
-      title: "Data Science Project Templates",
-      type: "ZIP",
-      size: "3.2 MB",
-      downloads: 67,
-      lastUpdated: "3 weeks ago"
-    }
+    { id: 1, title: "Data Science Fundamentals PDF", type: "PDF", size: "2.4 MB", downloads: 156, lastUpdated: "3 days ago" },
+    { id: 2, title: "Python Code Examples", type: "ZIP", size: "1.8 MB", downloads: 89, lastUpdated: "1 week ago" },
   ];
 
   const reviews = [
@@ -159,7 +112,7 @@ const CourseDetail = () => {
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       date: "2 days ago",
-      comment: "Excellent course! Dr. Chen explains complex concepts in a very clear way. The practical exercises really help solidify the learning."
+      comment: "Excellent course! Concepts are explained clearly and practically."
     },
     {
       id: 2,
@@ -167,7 +120,7 @@ const CourseDetail = () => {
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
       rating: 4,
       date: "1 week ago",
-      comment: "Great introduction to data science. The course structure is well-organized and the instructor is very knowledgeable."
+      comment: "Great intro to data science. The structure is well-organized."
     }
   ];
 
@@ -189,20 +142,10 @@ const CourseDetail = () => {
                 <Badge variant="outline">{course.level}</Badge>
                 <Badge variant="outline">{course.language}</Badge>
               </div>
-              
+
               <h1 className="text-4xl font-bold mb-4">{course.title}</h1>
               <p className="text-lg text-muted-foreground mb-6">{course.description}</p>
-              
-              <div className="mb-6">
-                <FileUpload
-                  onFileSelect={handleThumbnailUpload}
-                  accept="image/*"
-                  maxSize={2}
-                  label="Course Thumbnail"
-                  currentFile={course.thumbnail}
-                />
-              </div>
-              
+
               <div className="flex items-center space-x-6 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <Clock className="h-4 w-4" />
@@ -227,7 +170,7 @@ const CourseDetail = () => {
                     <p className="text-3xl font-bold text-primary">{course.price}</p>
                     <p className="text-sm text-muted-foreground">One-time payment</p>
                   </div>
-                  
+
                   <div className="space-y-3">
                     <Button className="w-full" size="lg">
                       <Play className="h-4 w-4 mr-2" />
@@ -244,7 +187,7 @@ const CourseDetail = () => {
                   </div>
 
                   <Separator className="my-4" />
-                  
+
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span>Course includes:</span>
@@ -359,13 +302,13 @@ const CourseDetail = () => {
                               {material.type === 'quiz' && <FileText className="h-4 w-4 text-green-600" />}
                               {material.type === 'exercise' && <FileText className="h-4 w-4 text-orange-600" />}
                               {material.type === 'project' && <FileText className="h-4 w-4 text-purple-600" />}
-                              
+
                               <div>
                                 <div className="font-medium">{material.title}</div>
                                 <div className="text-sm text-muted-foreground">{material.duration}</div>
                               </div>
                             </div>
-                            
+
                             <div className="flex items-center space-x-2">
                               {material.completed ? (
                                 <CheckCircle className="h-5 w-5 text-green-600" />
@@ -456,9 +399,9 @@ const CourseDetail = () => {
                           </div>
                           <div className="flex items-center space-x-1 mb-3">
                             {[...Array(5)].map((_, i) => (
-                              <Star 
-                                key={i} 
-                                className={`h-4 w-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`} 
+                              <Star
+                                key={i}
+                                className={`h-4 w-4 ${i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`}
                               />
                             ))}
                           </div>
@@ -488,7 +431,7 @@ const CourseDetail = () => {
                       </div>
                       <Progress value={course.progress} className="h-3" />
                     </div>
-                    
+
                     <div className="grid grid-cols-2 gap-4 text-center">
                       <div>
                         <p className="text-2xl font-bold text-primary">{course.modules.reduce((acc, module) => acc + module.completed, 0)}</p>
@@ -562,8 +505,8 @@ const CourseDetail = () => {
               </ul>
             </div>
             <div className="flex gap-3">
-              <Button 
-                className="flex-1" 
+              <Button
+                className="flex-1"
                 onClick={() => {
                   setIsEnrolled(true);
                   setShowEnrollDialog(false);
@@ -575,8 +518,8 @@ const CourseDetail = () => {
               >
                 Confirm Enrollment
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 onClick={() => setShowEnrollDialog(false)}
               >
                 Cancel
@@ -588,8 +531,8 @@ const CourseDetail = () => {
 
       {/* Video Preview Dialog */}
       {selectedLesson !== null && (
-        <Dialog 
-          open={selectedLesson !== null} 
+        <Dialog
+          open={selectedLesson !== null}
           onOpenChange={() => setSelectedLesson(null)}
         >
           <DialogContent className="max-w-4xl">
@@ -603,7 +546,7 @@ const CourseDetail = () => {
                 <div className="text-center p-8">
                   <Play className="h-12 w-12 text-white/50 mx-auto mb-4" />
                   <p className="text-white/80">Preview not available. Please enroll to watch this lesson.</p>
-                  <Button 
+                  <Button
                     className="mt-4"
                     onClick={() => {
                       setSelectedLesson(null);
@@ -624,20 +567,6 @@ const CourseDetail = () => {
       )}
     </div>
   );
-};
-
-// Helper function to handle lesson clicks
-const handleLessonClick = (
-  lessonId: number, 
-  isEnrolled: boolean, 
-  setSelectedLesson: (id: number | null) => void,
-  setShowEnrollDialog: (show: boolean) => void
-) => {
-  if (isEnrolled) {
-    setSelectedLesson(lessonId);
-  } else {
-    setShowEnrollDialog(true);
-  }
 };
 
 export default CourseDetail;
